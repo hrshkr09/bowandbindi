@@ -29,7 +29,7 @@ export const salesType = defineType({
       title: "Coupon Code",
     }),
     defineField({
-      name: "valueForm",
+      name: "validFrom",
       type: "datetime",
       title: "Valid From",
     }),
