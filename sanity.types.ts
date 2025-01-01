@@ -78,7 +78,7 @@ export type Sale = {
   description?: string;
   discountAmount?: number;
   couponCode?: string;
-  valueForm?: string;
+  validFrom?: string;
   validUntil?: string;
   isActive?: boolean;
 };
@@ -292,7 +292,7 @@ export type ACTIVE_SALE_BY_COUPON_QUERYResult = {
   description?: string;
   discountAmount?: number;
   couponCode?: string;
-  valueForm?: string;
+  validFrom?: string;
   validUntil?: string;
   isActive?: boolean;
 } | null;
@@ -313,7 +313,7 @@ export type ALL_CATEGORIES_QUERYResult = Array<{
 
 // Source: ./sanity/lib/products/getAllProducts.ts
 // Variable: ALL_PRODUCTS_QUERY
-// Query: *[_type == "product"] | order(name asc)
+// Query: *[ _type == "product"] | order(name asc)
 export type ALL_PRODUCTS_QUERYResult = Array<{
   _id: string;
   _type: "product";
@@ -439,7 +439,7 @@ export type PRODUCT_BY_ID_QUERYResult = {
 
 // Source: ./sanity/lib/products/getProductsByCategory.ts
 // Variable: PRODUCTS_BY_CATEGORY_QUERY
-// Query: *[            _type == "product"            && references(*[ _type =="category" && slug.current == $categorySlug]._id)        ] | order(name asc)
+// Query: *[            _type == "product"            && references(*[ _type == "category" && slug.current == $categorySlug]._id)        ] | order(name asc)
 export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<{
   _id: string;
   _type: "product";
@@ -569,9 +569,9 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n        \n        *[\n            _type == \"sale\"\n            &&isActive == true\n            && couponCode == $couponCode\n        ] | order(validForm desc)[0]\n        \n        ": ACTIVE_SALE_BY_COUPON_QUERYResult;
     "*[_type == \"category\"] | order(name asc)": ALL_CATEGORIES_QUERYResult;
-    "*[_type == \"product\"] | order(name asc)": ALL_PRODUCTS_QUERYResult;
+    "*[ _type == \"product\"] | order(name asc)": ALL_PRODUCTS_QUERYResult;
     "\n        *[\n            _type == \"product\"\n            && slug.current == $slug\n        ] | order(name asc) [0]\n        \n        ": PRODUCT_BY_ID_QUERYResult;
-    "\n        *[\n            _type == \"product\"\n            && references(*[ _type ==\"category\" && slug.current == $categorySlug]._id)\n        ] | order(name asc)\n        ": PRODUCTS_BY_CATEGORY_QUERYResult;
+    "\n        *[\n            _type == \"product\"\n            && references(*[ _type == \"category\" && slug.current == $categorySlug]._id)\n        ] | order(name asc)\n        ": PRODUCTS_BY_CATEGORY_QUERYResult;
     "\n        *[\n            _type == \"product\"\n            && name match $searchParam\n        ] | order(name asc)\n        \n        ": PRODUCT_SEARCH_QUERYResult;
   }
 }
